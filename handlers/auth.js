@@ -64,7 +64,7 @@ exports.login = async function (req, res, next) {
 
 exports.verifyingCookie = function (req, res) {
   let cookie = JSON.parse(req.cookies.user);
-
+  const resendCookie = cookie.token
 
   jwt.verify(cookie.token, process.env.SECRET_KEY, async (err, decoded) => {
     try {
@@ -74,7 +74,7 @@ exports.verifyingCookie = function (req, res) {
           id: user._id,
           username: user.username,
           profileImageUrl: user.profileImageUrl,
-          token: req.body.token,
+          token: resendCookie,
           bookmarks: user.bookmarks
         })
       }
