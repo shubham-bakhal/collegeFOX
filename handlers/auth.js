@@ -18,6 +18,7 @@ exports.signup = async function (req, res, next) {
       bookmarks: []
     })
   } catch (error) {
+   
     if (error.code === 11000) {
       error.message = 'Sorry, that username is taken';
     }
@@ -53,6 +54,7 @@ exports.login = async function (req, res, next) {
       })
     }
   } catch (error) {
+
     next({
       status: 400,
       message: "invalid Email/Password"
@@ -62,6 +64,8 @@ exports.login = async function (req, res, next) {
 
 exports.verifyingCookie = function (req, res) {
   let cookie = JSON.parse(req.cookies.user);
+
+
   jwt.verify(cookie.token, process.env.SECRET_KEY, async (err, decoded) => {
     try {
       if (decoded && decoded.id === cookie.id) {
@@ -75,7 +79,8 @@ exports.verifyingCookie = function (req, res) {
         })
       }
     } catch (err) {
-      console.log(err)
+    
+      res.status(403).send("Unauthorised")
     }
   })
 }
