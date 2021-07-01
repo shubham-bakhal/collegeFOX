@@ -3,11 +3,12 @@ const jwt = require('jsonwebtoken');
 exports.loginRequired = function (req, res, next) {
   try {
 
-  
+  console.log("LOgin require");
     // const token = JSON.parse(req.cookies.user).token || req.headers.authorization.split(' ')[1];
     const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
       if (decoded) {
+        console.log("Decoded");
         return next();
       } else {
         return next({
@@ -17,7 +18,7 @@ exports.loginRequired = function (req, res, next) {
       }
     })
   } catch (error) {
- 
+ console.log(error);
     next({
       status: 401,
       message: error.message
@@ -27,7 +28,7 @@ exports.loginRequired = function (req, res, next) {
 
 exports.ensureCorrectUser = (req, res, next) => {
   try {
-    
+    console.log("Ensure");
     // const token = JSON.parse(req.cookies.user).token || req.headers.authorization.split(' ')[1];
     const token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {

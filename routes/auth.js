@@ -9,7 +9,7 @@ router.post('/signup', signup);
 
 router.post('/signin', login);
 
-router.get('/otherRegisterData', async (req, res) => {
+router.get('/otherRegisterData', async (req, res,next) => {
   try {
     const users = await db.User.find();
     const data = { usernames: [], emails: [] };

@@ -2,7 +2,7 @@ const db = require('../models');
 
 exports.createPost = async function (req, res, next) {
   try {
-    
+    console.log("Createing post");
     const url = req.protocol + '://' + req.get('host');
     let post = await db.Post.create({
       imageUrl: req.files.map(val => url + '/public/' + val.filename),
