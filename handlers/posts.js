@@ -43,6 +43,8 @@ exports.getPost = async function (req, res, next) {
 exports.deletePost = async function (req, res, next) {
   try {
     let post = await db.Post.findById(req.params.message_id);
+    const deleteImg = post.imageUrl;
+    console.log(deleteImg);
     await db.Post.deleteOne(post);
     res.status(200).json(post);
 
