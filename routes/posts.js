@@ -20,6 +20,7 @@ router.get('/allmessages', async (req, res) => {
     let posts = await db.Post.find().populate('user', {
       username: true,
       profileImageUrl: true,
+      phone:true,
       email: true,
     });
     res.status(200).json(posts);
@@ -32,6 +33,7 @@ router.put('/:messageId', upload.array('imageUrl'), async (req, res) => {
   try {
     let post = await db.Post.findById(req.params.messageId).populate('user', {
       username: true,
+      phone:true,
       profileImageUrl: true,
     });
     const url = req.protocol + '://' + req.get('host');

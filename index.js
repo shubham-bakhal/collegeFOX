@@ -17,33 +17,16 @@ app.use(cookieParser());
 
 const PORT = process.env.PORT || 4001;
 
-// app.use(
-//   cors({
-//     origin: ['http://localhost:3000', 'https://boring-turing-09875f.netlify.app'],
-//     credentials: true,
-//     exposedHeaders: ['set-cookie'],
-//   })
-// );
-// app.use(function (req, res, next) {
-//   res.header('Access-Control-Allow-Credentials', true);
-//   res.header('Access-Control-Allow-Origin', req.headers.origin);
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
-//   );
-//   next();
-// });
 
 app.use('/api/auth', authRoutes);
 
-// app.use('/api/users/:id/posts', postRoutes);
 app.use('/api/users/:id/posts', loginRequired, ensureCorrectUser, postRoutes);
 
 app.use('/api/posts', async function (req, res, next) {
   try {
     let posts = await db.Post.find().populate('user', {
       username: true,
+      phone:true,
       profileImageUrl: true,
     });
     return res.status(200).json(posts);

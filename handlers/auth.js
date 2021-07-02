@@ -3,8 +3,10 @@ const jwt = require("jsonwebtoken");
 
 exports.signup = async function (req, res, next) {
   try {
+  
     let user = await db.User.create(req.body);
-    let { id, username, profileImageUrl } = user;
+    console.log(user);
+    let { id, username,phone, profileImageUrl } = user;
     let token = jwt.sign({
       id,
       username,
@@ -13,6 +15,7 @@ exports.signup = async function (req, res, next) {
     return res.status(200).json({
       id,
       username,
+      phone,
       profileImageUrl,
       token,
       bookmarks: []
@@ -32,7 +35,7 @@ exports.signup = async function (req, res, next) {
 exports.login = async function (req, res, next) {
   try {
     let user = await db.User.findOne({ email: req.body.email })
-    let { id, username, profileImageUrl, bookmarks } = user;
+    let { id, username,phone, profileImageUrl, bookmarks } = user;
     let isMatch = await user.comparePassword(req.body.password);
     if (isMatch) {
       let token = jwt.sign({
@@ -43,6 +46,7 @@ exports.login = async function (req, res, next) {
       return res.status(200).json({
         id,
         username,
+        phone,
         profileImageUrl,
         token,
         bookmarks
@@ -73,6 +77,7 @@ exports.verifyingCookie = function (req, res) {
         res.status(200).json({
           id: user._id,
           username: user.username,
+          phone: user.phone,
           profileImageUrl: user.profileImageUrl,
           token: resendCookie,
           bookmarks: user.bookmarks
