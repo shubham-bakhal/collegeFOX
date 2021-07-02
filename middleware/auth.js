@@ -11,6 +11,7 @@ exports.loginRequired = function (req, res, next) {
         console.log("Decoded");
         return next();
       } else {
+        console.log(err);
         return next({
           status: 401,
           message: 'Please login first'
